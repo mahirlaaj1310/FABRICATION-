@@ -71,35 +71,30 @@
         justify-content:center;
         position:relative;
         color:white;
+        background-size:cover;
+        background-position:center;
+        transition: background-image 1s ease-in-out;
     }
 
-    /* Background Slideshow */
-    .bg-slide{
+    /* Overlay to darken background for readability */
+    section::before{
+        content:"";
         position:absolute;
         top:0;left:0;
         width:100%;
         height:100%;
-        background-size:cover;
-        background-position:center;
-        background-repeat:no-repeat;
-        z-index:-1;
-        animation:fadeBg 10s infinite linear;
-        filter:brightness(0.45);
+        background:rgba(0,0,0,0.45);
+        z-index:0;
     }
 
-    @keyframes fadeBg {
-        0% { opacity:1; }
-        33% { opacity:0; }
-        66% { opacity:1; }
-    }
-
-    /* CONTENT CENTER */
+    /* Centered content */
     .center-content{
+        position:relative;
         z-index:2;
         text-align:center;
     }
 
-    /* HOME TEXT */
+    /* HOME */
     #home h1{
         font-size:70px;
         font-weight:700;
@@ -136,17 +131,17 @@
         color:black;
     }
 
-    /* SERVICES SECTION */
+    /* SERVICES */
     #services h2{
         font-size:50px;
         margin-bottom:15px;
-        color:white;
     }
 
     .service-box{
         display:grid;
         grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
         gap:25px;
+        margin-top:20px;
     }
 
     .card{
@@ -173,7 +168,6 @@
     #about h2{
         font-size:50px;
         margin-bottom:15px;
-        color:white;
     }
 
     #about p{
@@ -181,14 +175,12 @@
         margin:auto;
         font-size:20px;
         line-height:1.7;
-        color:white;
     }
 
     /* CONTACT */
     #contact h2{
         font-size:50px;
         margin-bottom:15px;
-        color:white;
     }
 
     form{
@@ -239,7 +231,6 @@
     }
 </style>
 </head>
-
 <body>
 
 <!-- NAVIGATION -->
@@ -255,11 +246,9 @@
 
 <!-- HOME -->
 <section id="home">
-    <div class="bg-slide" style="background-image:url('images/backs1.jpeg');"></div>
     <div class="center-content">
         <h1>Aabid Fabricators</h1>
         <p>Ghar ke liye poori service — Modular Kitchen, False Ceiling, Wardrobe aur Metal Fabrication.</p>
-
         <div class="btns">
             <a href="tel:+919999999999" class="btn">Call Now</a>
             <a href="https://wa.me/919999999999?text=Hello%20Aabid%20Fabricators" class="btn">WhatsApp</a>
@@ -269,11 +258,8 @@
 
 <!-- SERVICES -->
 <section id="services">
-    <div class="bg-slide" style="background-image:url('images/backs2.jpeg');"></div>
-
     <div class="center-content">
         <h2>Our Services</h2>
-
         <div class="service-box">
             <div class="card"><h3>Modular Kitchen</h3><p>Design + Installation</p></div>
             <div class="card"><h3>False Ceiling</h3><p>POP & Gypsum Specialist</p></div>
@@ -285,8 +271,6 @@
 
 <!-- ABOUT -->
 <section id="about">
-    <div class="bg-slide" style="background-image:url('images/backs1.jpeg');"></div>
-
     <div class="center-content">
         <h2>About Us</h2>
         <p>
@@ -299,18 +283,14 @@
 
 <!-- CONTACT -->
 <section id="contact">
-    <div class="bg-slide" style="background-image:url('images/backs2.jpeg');"></div>
-
     <div class="center-content">
         <h2>Contact Us</h2>
-
         <form>
             <input type="text" placeholder="Your Name" required>
             <input type="tel" placeholder="Your Phone" required>
             <textarea placeholder="Your Message" rows="4" required></textarea>
             <button type="submit">Send Message</button>
         </form>
-
         <div class="social">
             <a href="#">Facebook</a>
             <a href="#">Instagram</a>
@@ -318,6 +298,32 @@
         </div>
     </div>
 </section>
+
+<!-- JS for background slideshow -->
+<script>
+const slides = {
+    home: ['images/backs1.jpeg','images/backs2.jpeg'],
+    services: ['images/backs2.jpeg','images/backs1.jpeg'],
+    about: ['images/backs1.jpeg','images/backs2.jpeg'],
+    contact: ['images/backs2.jpeg','images/backs1.jpeg']
+};
+
+function startSlideshow(sectionId, interval=5000){
+    const section = document.getElementById(sectionId);
+    let index = 0;
+    section.style.backgroundImage = `url('${slides[sectionId][index]}')`; // initial
+    setInterval(()=>{
+        index = (index + 1) % slides[sectionId].length;
+        section.style.backgroundImage = `url('${slides[sectionId][index]}')`;
+    }, interval);
+}
+
+// Start slideshows
+startSlideshow('home');
+startSlideshow('services');
+startSlideshow('about');
+startSlideshow('contact');
+</script>
 
 </body>
 </html>
